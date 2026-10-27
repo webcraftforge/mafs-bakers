@@ -1,0 +1,238 @@
+@use "../styles/variables" as *;
+
+.footer {
+  background: $color-chocolate;
+  color: $color-white;
+  padding-block: 64px 32px;
+}
+
+.footer__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+  margin-bottom: 48px;
+  
+  @media (min-width: 768px) {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+/* ───────── Brand ───────── */
+
+.footer__brand {
+  max-width: 320px;
+}
+
+.footer__logo img {
+  filter: brightness(0) invert(1);
+  margin-bottom: 16px;
+}
+
+.footer__tagline {
+  color: rgba($color-white, 0.7);
+  font-family: $font-body;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ───────── Links ───────── */
+
+.footer__heading {
+  font-family: $font-body;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: $color-white;
+  margin-bottom: 20px;
+}
+
+.footer__links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.footer__links a {
+  color: rgba($color-white, 0.7);
+  font-family: $font-body;
+  font-size: 15px;
+  transition: color 200ms ease;
+  
+  &:hover {
+    color: $color-white;
+  }
+}
+
+/* Make policy buttons look exactly like links */
+.footer__links button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: rgba($color-white, 0.7);
+  font-family: $font-body;
+  font-size: 15px;
+  cursor: pointer;
+  transition: color 200ms ease;
+  text-align: left;
+  
+  &:hover {
+    color: $color-white;
+  }
+}
+
+/* ───────── Socials ───────── */
+
+.footer__socials {
+  display: flex;
+  gap: 12px;
+}
+
+.footer__socials a {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba($color-white, 0.1);
+  color: $color-white;
+  transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
+  
+  &:hover {
+    background: $color-white;
+    color: $color-chocolate;
+    transform: translateY(-2px);
+  }
+}
+
+/* ───────── Bottom Bar ───────── */
+
+.footer__bottom {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 32px;
+  border-top: 1px solid rgba($color-white, 0.1);
+  text-align: center;
+  
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+  
+  p {
+    color: rgba($color-white, 0.5);
+    font-family: $font-body;
+    font-size: 13px;
+    margin: 0;
+  }
+}
+
+/* ═════════ Policy Modal ═════════ */
+
+.policy-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+}
+
+.policy-modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: fade-in 300ms ease;
+}
+
+.policy-modal__content {
+  position: relative;
+  background: $color-white;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.2);
+  animation: pop-in 400ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.policy-modal__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid $color-border;
+  
+  h2 {
+    margin: 0;
+    font-family: $font-body;
+    font-size: 18px;
+    font-weight: 600;
+    color: $color-chocolate;
+  }
+}
+
+.policy-modal__close {
+  background: none;
+  border: none;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  color: $color-muted;
+  cursor: pointer;
+  transition: all 200ms ease;
+  
+  &:hover {
+    background: $color-cream;
+    color: $color-chocolate;
+  }
+}
+
+.policy-modal__body {
+  padding: 24px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.policy-modal__section {
+  h3 {
+    margin: 0 0 6px;
+    font-family: $font-body;
+    font-size: 14px;
+    font-weight: 700;
+    color: $color-chocolate;
+  }
+  
+  p {
+    margin: 0;
+    font-family: $font-body;
+    font-size: 14px;
+    line-height: 1.6;
+    color: $color-muted;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}

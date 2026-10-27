@@ -1,0 +1,36 @@
+
+/* Colors */
+$color-cream: #f7f3ec;
+$color-cream-dark: #eee5d9;
+$color-white: #fff;
+
+$color-chocolate: #3b281f;
+$color-chocolate-light: #63483a;
+$color-text: #302721;
+$color-muted: #81756b;
+$color-border: #e7ded3;
+$color-accent: #9a5b3a;
+
+/* Typography */
+$font-body: "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+$font-heading: "Instrument Serif", "Cormorant Garamond", Georgia, serif;
+
+/* Layout */
+$container-width: 1200px;
+$nav-height: 76px;
+
+/* Corners */
+$radius-sm: 8px;
+$radius-md: 14px;
+$radius-lg: 22px;
+$radius-pill: 999px;
+
+/* Shadows */
+$shadow-soft: 0 8px 28px rgba(59, 40, 31, 0.06);
+$shadow-lift: 0 14px 32px rgba(59, 40, 31, 0.12);
+
+/* Motion */
+$transition: 180ms ease-out;
+$ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+$ease-soft: cubic-bezier(0.4, 0, 0.2, 1);
+$lift-ease: cubic-bezier(0.22, 1, 0.36, 1);

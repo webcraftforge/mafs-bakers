@@ -1,0 +1,302 @@
+@use "../styles/variables" as *;
+
+/* shared focus ring — used across navbar + home buttons */
+@mixin focus-ring {
+  &:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba($color-chocolate, 0.35);
+  }
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  padding: 16px 0;
+  background: rgba(247, 241, 232, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.navbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: $nav-height;
+  padding: 12px 18px;
+  border: 1px solid $color-border;
+  border-radius: $radius-lg;
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: $shadow-soft;
+}
+
+.navbar__brand {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  border-radius: 12px;
+  transition: transform $transition;
+  @include focus-ring;
+
+  &:active {
+    transform: scale(0.98);
+  }
+}
+
+.navbar__logo {
+  width: 116px;
+  height: 54px;
+  object-fit: contain;
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(16px, 2.2vw, 32px);
+
+  a {
+    position: relative;
+    padding: 8px 0;
+    color: $color-muted;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 6px;
+    transition: color $transition;
+    @include focus-ring;
+
+    &::after {
+      position: absolute;
+      right: 0;
+      bottom: 2px;
+      left: 0;
+      height: 2px;
+      content: "";
+      background: $color-chocolate;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform $transition;
+    }
+
+    &:hover {
+      color: $color-chocolate;
+    }
+
+    &:hover::after {
+      transform: scaleX(1);
+    }
+  }
+}
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Order Now — desktop only, hidden on mobile */
+.navbar__order {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+  padding: 0 22px;
+  border: 1px solid $color-chocolate;
+  border-radius: $radius-pill;
+  color: $color-white;
+  background: $color-chocolate;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  transition:
+    background $transition,
+    color $transition,
+    border-color $transition,
+    transform 400ms cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  @include focus-ring;
+
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+.navbar__cart,
+.navbar__toggle {
+  position: relative;
+  display: inline-flex;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid $color-border;
+  border-radius: 50%;
+  color: $color-chocolate;
+  background: $color-cream;
+  transition:
+    background $transition,
+    border-color $transition,
+    transform 400ms cubic-bezier(0.22, 1, 0.36, 1);
+  @include focus-ring;
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.navbar__cart-count {
+  position: absolute;
+  top: -4px;
+  right: -3px;
+  display: grid;
+  min-width: 19px;
+  height: 19px;
+  place-items: center;
+  padding: 0 4px;
+  border: 2px solid $color-white;
+  border-radius: $radius-pill;
+  color: $color-white;
+  background: #8d4d2f;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.navbar__toggle {
+  display: none;
+}
+
+@media (hover: hover) {
+  .navbar__order:hover {
+    color: $color-chocolate;
+    background: transparent;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba($color-chocolate, 0.15);
+  }
+
+  .navbar__cart:hover,
+  .navbar__toggle:hover {
+    border-color: $color-chocolate;
+    background: $color-white;
+    transform: translateY(-2px);
+  }
+}
+
+@media (max-width: 850px) {
+  .navbar {
+    gap: 12px;
+    padding-inline: 14px;
+  }
+
+  .navbar__logo {
+    width: 100px;
+  }
+
+  .navbar__links {
+    gap: 14px;
+
+    a {
+      font-size: 12px;
+    }
+  }
+
+  .navbar__order {
+    padding-inline: 16px;
+    min-height: 42px;
+  }
+}
+
+/* Mobile: hide Order Now, show toggle, collapse links */
+@media (max-width: 680px) {
+  .site-header {
+    padding: 10px 0;
+  }
+
+  .navbar {
+    min-height: 66px;
+    padding: 8px 10px 8px 14px;
+    border-radius: 22px;
+  }
+
+  .navbar__logo {
+    width: 94px;
+    height: 46px;
+  }
+
+  .navbar__actions {
+    gap: 7px;
+  }
+
+  /* hide Order Now on mobile */
+  .navbar__order {
+    display: none;
+  }
+
+  .navbar__cart,
+  .navbar__toggle {
+    width: 40px;
+    height: 40px;
+  }
+
+  .navbar__toggle {
+    display: inline-flex;
+  }
+
+  .navbar__links {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    left: 0;
+    display: flex;
+    align-items: stretch;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px;
+    border: 1px solid $color-border;
+    border-radius: 22px;
+    background: $color-white;
+    box-shadow: $shadow-soft;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition:
+      opacity $transition,
+      transform $transition,
+      visibility $transition;
+
+    a {
+      padding: 13px 12px;
+      border-radius: 12px;
+      color: $color-chocolate;
+      font-size: 14px;
+
+      &::after {
+        display: none;
+      }
+
+      &:hover {
+        background: $color-cream;
+      }
+    }
+  }
+
+  .navbar__links--open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 380px) {
+  .navbar__logo {
+    width: 78px;
+  }
+
+  .navbar__actions {
+    gap: 5px;
+  }
+}
