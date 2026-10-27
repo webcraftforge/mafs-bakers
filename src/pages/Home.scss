@@ -1,3 +1,4 @@
+
 @use "../styles/variables" as *;
 
 .home {
@@ -222,7 +223,7 @@
   -webkit-user-drag: none;
 }
 
-/* Badge */
+/* Badge (Now purely decorative) */
 .hero__badge {
   position: absolute;
   bottom: -34px;
@@ -242,7 +243,6 @@
   width: 90%;
   height: 90%;
   animation: spin 22s linear infinite;
-  transition: animation-duration 400ms ease; /* Smooth transition to fast speed */
 
   text {
     fill: $color-chocolate;
@@ -252,14 +252,9 @@
   }
 }
 
-/* Speed up badge on hover */
-.hero__float:hover .hero__badge-ring {
-  animation-duration: 6s;
-}
-
 .hero__badge-core {
   display: block;
-  width: 24%;
+  width: 24%; /* Smaller clean dot */
   aspect-ratio: 1;
   border-radius: 50%;
   background: $color-chocolate;
@@ -298,11 +293,6 @@
     bottom: 6px;
     width: 1px;
     background: rgba($color-chocolate, 0.1);
-    
-    /* Animation setup */
-    transform: scaleY(0);
-    transform-origin: top;
-    transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   .features__index {
@@ -347,12 +337,6 @@
 .features.is-in .features__item {
   animation: fade-up 700ms $ease-out backwards;
   animation-delay: calc(var(--i) * 110ms + 260ms);
-}
-
-/* Slide in the divider lines when section is visible */
-.features.is-in .features__item::before {
-  transform: scaleY(1);
-  transition-delay: calc(var(--i) * 110ms + 500ms);
 }
 
 /* ═════════ Keyframes ═════════ */
@@ -412,7 +396,7 @@
   
   .hero__visual {
     width: 100%;
-    max-width: 340px;
+    max-width: 340px; /* Slightly smaller for tablet */
     margin: 0 auto 44px;
     justify-self: center;
   }
@@ -433,26 +417,16 @@
     border: 1px solid rgba($color-chocolate, 0.06);
 
     &:not(:first-child)::before { display: none; }
-    
     &::after {
       content: "";
       position: absolute;
       left: 0; top: 18px; bottom: 18px; width: 3px;
       border-radius: 0 3px 3px 0;
       background: $color-accent;
-      
-      transform: scaleY(0);
-      transform-origin: top;
-      transition: transform 800ms cubic-bezier(0.22, 1, 0.36, 1);
     }
 
     h3 { font-size: 17px; }
     p { font-size: 14px; }
-  }
-  
-  .features.is-in .features__item::after {
-    transform: scaleY(1);
-    transition-delay: calc(var(--i) * 110ms + 400ms);
   }
 }
 
@@ -468,7 +442,7 @@
 
   .hero__visual { 
     --r: 26px; 
-    max-width: 280px; 
+    max-width: 280px; /* Perfectly sized for mobile */
     margin-bottom: 42px; 
   }
   .hero__badge { bottom: -28px; left: -12px; width: 88px; }
@@ -486,7 +460,7 @@
 @media (max-width: 400px) {
   .hero__title { font-size: 32px; }
   .hero__visual { 
-    max-width: 250px; 
+    max-width: 250px; /* Scaled down for small phones */
     margin-bottom: 38px; 
   }
   .hero__badge { width: 80px; left: -8px; bottom: -24px; }
@@ -496,6 +470,7 @@
   .features__item { padding: 15px 14px 15px 16px; }
 }
 
+/* ═════════ Reduced motion ═════════ */
 @media (prefers-reduced-motion: reduce) {
   .reveal, .hero__line > span, .hero__float, .hero__frame,
   .hero__badge, .hero__badge-ring, .features__item, .features__panel {

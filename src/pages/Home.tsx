@@ -1,11 +1,12 @@
+
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import type { CSSProperties, PointerEvent } from "react";
 import "./Home.scss";
 
 const SLIDES = [
   { src: "/images/hero.webp", alt: "Fresh bakes from MAFS Bakers, photo 1 of 3" },
-  { src: "/images/Vanilla-Butter-Cake.1.jpg", alt: "Fresh bakes from MAFS Bakers, photo 2 of 3" },
-//   { src: "/images/hero-3.webp", alt: "Fresh bakes from MAFS Bakers, photo 3 of 3" },
+  { src: "/images/hero-2.webp", alt: "Fresh bakes from MAFS Bakers, photo 2 of 3" },
+  { src: "/images/hero-3.webp", alt: "Fresh bakes from MAFS Bakers, photo 3 of 3" },
 ] as const;
 
 const SLIDE_MS = 4200;
@@ -58,7 +59,6 @@ const Home = () => {
   const next = useCallback(() => setSlide((s) => ({ cur: (s.cur + 1) % total, prev: s.cur })), [total]);
   const prev = useCallback(() => setSlide((s) => ({ cur: (s.cur - 1 + total) % total, prev: s.cur })), [total]);
 
-  // Autoplay
   useEffect(() => {
     if (hovered || pressed || focused) return;
     if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -66,19 +66,6 @@ const Home = () => {
     const id = window.setInterval(next, SLIDE_MS);
     return () => window.clearInterval(id);
   }, [hovered, pressed, focused, next]);
-
-  // Micro-Drift Scroll Effect
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const handleScroll = () => {
-      const visual = document.querySelector(".hero__float") as HTMLElement;
-      if (visual && window.scrollY < 800) {
-        visual.style.transform = `translateY(${window.scrollY * 0.12}px)`;
-      }
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const handleDown = (e: PointerEvent<HTMLDivElement>) => {
     startX.current = e.clientX;
@@ -156,6 +143,7 @@ const Home = () => {
               ))}
             </div>
 
+            {/* Purely decorative rotating stamp (removed arrow & link) */}
             <div className="hero__badge" aria-hidden="true">
               <svg className="hero__badge-ring" viewBox="0 0 100 100">
                 <defs><path id="badge-path" d="M50 50 m-39 0 a39 39 0 1 1 78 0 a39 39 0 1 1 -78 0" /></defs>
