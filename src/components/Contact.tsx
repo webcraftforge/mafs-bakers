@@ -48,7 +48,7 @@ const Contact = () => {
                 <div className="contact__icon"><MapPin size={20} /></div>
                 <div>
                   <span className="contact__list-label">Where we bake</span>
-                  <span className="contact__list-value">Home kitchen, Johar Town, Lahore</span>
+                  <span className="contact__list-value">Home kitchen, Gulshan e Iqbal, karachi</span>
                 </div>
               </li>
               
@@ -56,7 +56,7 @@ const Contact = () => {
                 <div className="contact__icon"><Phone size={20} /></div>
                 <div>
                   <span className="contact__list-label">WhatsApp us</span>
-                  <a href={`https://wa.me/${WHATSAPP_NUMBER}`} className="contact__list-value">+92 300 1234567</a>
+                  <a href={`https://wa.me/${WHATSAPP_NUMBER}`} className="contact__list-value">+92 3362179016</a>
                 </div>
               </li>
 
@@ -71,7 +71,7 @@ const Contact = () => {
               <li className="contact__list-item">
                 <div className="contact__icon"><Clock size={20} /></div>
                 <div>
-                  <span className="contact__list-label">Baking days</span>
+                  <span className="contact__list-label">Working days</span>
                   <span className="contact__list-value">Mon - Sat · 10am to 8pm</span>
                 </div>
               </li>

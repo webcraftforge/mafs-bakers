@@ -20,11 +20,14 @@ const Navbar = () => {
           aria-label="MAFS Bakers home"
           onClick={closeMenu}
         >
-          <img
-            src="/images/mafs1.png"
-            alt="MAFS Bakers"
-            className="navbar__logo"
-          />
+<img
+  src="/images/mafs1.webp"
+  alt="MAFS Bakers"
+  className="navbar__logo"
+  fetchPriority="high" // ← ADD THIS
+  width={150}          // ← Set the actual rendered size
+  height={109}
+/>
         </Link>
 
         <nav

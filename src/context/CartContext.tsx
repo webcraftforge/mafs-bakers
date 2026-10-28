@@ -1,3 +1,4 @@
+
 import { createContext, useContext, useState, useMemo } from "react";
 import type { ReactNode } from "react";
 
@@ -5,7 +6,7 @@ export type CartItem = {
   cartId: string;
   itemId: string;
   name: string;
-  boxSize: "Box of 6" | "Box of 12";
+  boxSize: string;
   price: number;
   qty: number;
   img?: string;
@@ -18,6 +19,7 @@ type CartContextType = {
   closeCart: () => void;
   addToCart: (item: Omit<CartItem, "qty" | "cartId">) => void;
   updateQty: (cartId: string, delta: number) => void;
+  clearCart: () => void;  // ← NEW
   cartTotal: number;
   cartCount: number;
 };
@@ -58,6 +60,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     );
   };
 
+  const clearCart = () => setCart([]);  // ← NEW
+
   const cartTotal = useMemo(
     () => cart.reduce((sum, item) => sum + item.price * item.qty, 0),
     [cart]
@@ -77,6 +81,7 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
         closeCart,
         addToCart,
         updateQty,
+        clearCart,
         cartTotal,
         cartCount,
       }}

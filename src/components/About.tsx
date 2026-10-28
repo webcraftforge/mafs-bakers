@@ -4,14 +4,7 @@ import type { CSSProperties } from "react";
 import "./About.scss";
 
 const IMAGES = [
-  { src: "/images/aboutsection.webp", alt: "Hands kneading dough on a floured wooden table" },
-//   { src: "/images/about-2.webp", alt: "Fresh pastries and cupcakes on a wooden board" },
-//   { src: "/images/about-3.webp", alt: "A tray of freshly baked brownies" },
-];
-
-const STATS = [
-  { label: "Since", value: "2013" },
-  { label: "Focus", value: "Hygiene & quality" },
+  { src: "/images/about.webp", alt: "Hands kneading dough on a floured wooden table" },
 ];
 
 const IMAGE_MS = 2200;
@@ -72,7 +65,6 @@ const About = () => {
                 aria-hidden={i !== active}
               />
             ))}
-            {/* <figcaption className="about__caption">Made fresh in our kitchen, daily.</figcaption> */}
           </figure>
         </div>
 
@@ -90,15 +82,7 @@ const About = () => {
           <blockquote className="about__quote" style={{ "--i": 5 } as CSSProperties}>
             “Every bite should feel like it was made just for you.”
           </blockquote>
-          <div className="about__stats" style={{ "--i": 6 } as CSSProperties}>
-            {STATS.map((s) => (
-              <div key={s.label} className="about__stat">
-                <span className="about__stat-label">{s.label}</span>
-                <span className="about__stat-value">{s.value}</span>
-              </div>
-            ))}
-          </div>
-          <a href="#contact" className="btn btn--primary about__cta" style={{ "--i": 7 } as CSSProperties}>
+          <a href="#contact" className="btn btn--primary about__cta" style={{ "--i": 6 } as CSSProperties}>
             <span>Visit us</span>
             <span className="btn__chip" aria-hidden="true">
               <svg className="arrow" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>

@@ -1,3 +1,4 @@
+
 @use "../styles/variables" as *;
 
 /* ───────── Section Layout ───────── */
@@ -75,24 +76,6 @@
   }
 }
 
-.about__caption {
-  position: absolute;
-  left: 16px;
-  bottom: 16px;
-  z-index: 2;
-  padding: 8px 16px;
-  border-radius: $radius-pill;
-  background: rgba(255, 255, 255, 0.85);
-  color: $color-chocolate;
-  font-family: $font-body;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
 /* ───────── Content ───────── */
 
 .about__content {
@@ -133,7 +116,7 @@
 }
 
 .about__body {
-  margin: 0 0 28px;
+  margin: 0 0 32px;
   color: $color-muted;
   font-size: 15px;
   line-height: 1.7;
@@ -141,7 +124,7 @@
 }
 
 .about__quote {
-  margin: 0 0 36px;
+  margin: 0 0 40px;
   padding: 6px 0 6px 20px;
   border-left: 3px solid $color-accent;
   color: $color-chocolate;
@@ -151,44 +134,6 @@
   font-style: normal; 
   line-height: 1.5;
   max-width: 520px;
-}
-
-/* ───────── Stats ───────── */
-
-.about__stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin: 0 0 36px;
-}
-
-.about__stat {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 4px;
-  padding: 14px 22px;
-  border: 1px solid rgba($color-chocolate, 0.08);
-  border-radius: 14px;
-  background: rgba($color-white, 0.6);
-  box-shadow: 0 4px 12px rgba($color-chocolate, 0.02);
-}
-
-.about__stat-label {
-  color: $color-muted;
-  font-family: $font-body;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  margin-bottom: 2px;
-}
-
-.about__stat-value {
-  color: $color-chocolate;
-  font-family: $font-body; 
-  font-size: 16px; 
-  font-weight: 600; 
 }
 
 .about__cta {
@@ -203,7 +148,6 @@
 .about:not(.is-in) .about__lead,
 .about:not(.is-in) .about__body,
 .about:not(.is-in) .about__quote,
-.about:not(.is-in) .about__stats,
 .about:not(.is-in) .about__cta {
   opacity: 0;
   transform: translateY(16px);
@@ -215,7 +159,6 @@
 .about.is-in .about__lead,
 .about.is-in .about__body,
 .about.is-in .about__quote,
-.about.is-in .about__stats,
 .about.is-in .about__cta {
   animation: about-fade-up 800ms $ease-out backwards;
   animation-delay: calc(var(--i, 0) * 90ms + 100ms);
@@ -261,17 +204,11 @@
     box-shadow: 0 16px 32px rgba($color-chocolate, 0.1);
   }
 
-  .about__caption { left: 12px; bottom: 12px; font-size: 11px; padding: 6px 12px; }
   .about__title { margin-bottom: 18px; font-size: clamp(32px, 9vw, 42px); }
   .about__lead { margin-bottom: 16px; font-size: 16px; line-height: 1.6; }
   .about__body { margin-bottom: 24px; font-size: 15px; line-height: 1.6; }
-  .about__quote { margin-bottom: 28px; font-size: 16px; padding-left: 16px; }
-  
-  .about__stats { gap: 10px; margin-bottom: 32px; }
-  .about__stat { padding: 12px 16px; }
-  .about__stat-value { font-size: 16px; }
+  .about__quote { margin-bottom: 32px; font-size: 16px; padding-left: 16px; }
 
-  /* FIXED: Button is small and inline again */
   .about__cta {
     width: auto; 
     justify-content: center;
@@ -287,7 +224,6 @@
   .about.is-in .about__lead,
   .about.is-in .about__body,
   .about.is-in .about__quote,
-  .about.is-in .about__stats,
   .about.is-in .about__cta {
     opacity: 1; transform: none; animation: none; transition: none;
   }

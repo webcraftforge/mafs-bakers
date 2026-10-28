@@ -72,7 +72,7 @@ const Footer = () => {
             
             <div className="footer__brand">
               <Link to="/" className="footer__logo">
-                <img src="/images/mafs1.png" alt="MAFS Bakers" width={120} height={50} />
+                <img src="/images/mafs1.webp" alt="MAFS Bakers" width={120} height={50} />
               </Link>
               <p className="footer__tagline">
                 A little home kitchen in Lahore, baking treats that taste like home since 2013.

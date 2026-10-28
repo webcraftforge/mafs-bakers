@@ -1,17 +1,24 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import type { CSSProperties } from "react";
 import { X, ShoppingBag } from "lucide-react";
 import { useCart } from "../context/CartContext";
 import "./Menu.scss";
 
+type Variant = {
+  label: string;
+  price: number;
+};
+
 type MenuItem = {
   id: string;
   name: string;
-  shortDesc: string;
-  longDesc: string;
+  description: string;
   img: string;
-  price6: number;
-  price12: number;
+  status: "Freshly Baked" | "Frozen" | "Fresh" | "Best Seller";
+  // NEW: Control where the status appears. Defaults to true if omitted.
+  showStatusOnCard?: boolean;
+  showStatusInModal?: boolean;
+  variants: Variant[];
 };
 
 type Category = {
@@ -28,44 +35,47 @@ const CATEGORIES: Category[] = [
       { 
         id: "c1", 
         name: "Classic Vanilla", 
-        shortDesc: "Fluffy sponge, silky vanilla frosting.",
-        longDesc: "Our signature vanilla cupcake is baked to perfection using pure Madagascar vanilla extract, resulting in a moist, fluffy sponge. Topped with a generous swirl of silky vanilla bean frosting and a delicate dusting of gold dust.",
+        description: "Our signature vanilla cupcake is baked to perfection using pure Madagascar vanilla extract, resulting in a moist, fluffy sponge. Topped with a generous swirl of silky vanilla bean frosting and a delicate dusting of gold dust.",
         img: "/images/double chcoc bronie copy.jpg", 
-        price6: 1200, 
-        price12: 2200 
+        status: "Freshly Baked",
+        showStatusOnCard: false,  // Shows on grid
+        showStatusInModal: true, // Shows in popup
+        variants: [
+          { label: "Box of 6", price: 1200 },
+          { label: "Box of 12", price: 2200 },
+        ],
       },
       { 
         id: "c2", 
         name: "Double Chocolate", 
-        shortDesc: "Rich chocolate cake, dark chocolate ganache.",
-        longDesc: "A chocolate lover's dream. This deep, rich chocolate cake is filled with a molten chocolate center and topped with a velvety dark chocolate ganache. Perfectly balanced, not too sweet, and incredibly indulgent.",
-        img: "/images/carrot cupcake.jpg", 
-        price6: 1400, 
-        price12: 2600 
-      },
-      { 
-        id: "c2", 
-        name: "Double Chocolate", 
-        shortDesc: "Rich chocolate cake, dark chocolate ganache.",
-        longDesc: "A chocolate lover's dream. This deep, rich chocolate cake is filled with a molten chocolate center and topped with a velvety dark chocolate ganache. Perfectly balanced, not too sweet, and incredibly indulgent.",
-        img: "/images/carrot cupcake.jpg", 
-        price6: 1400, 
-        price12: 2600 
+        description: "A chocolate lover's dream. This deep, rich chocolate cake is filled with a molten chocolate center and topped with a velvety dark chocolate ganache. Perfectly balanced, not too sweet, and incredibly indulgent.",
+        img: "/images/carrot cupcake.webp", 
+        status: "Best Seller",
+        showStatusOnCard: true, // Hidden on grid
+        showStatusInModal: true, // Shows in popup only
+        variants: [
+          { label: "Box of 6", price: 1400 },
+          { label: "Box of 12", price: 2600 },
+        ],
       }
     ],
   },
   {
-    id: "cookies",
-    name: "Cookies",
+    id: "loaves",
+    name: "Loaf Cakes",
     items: [
       { 
-        id: "k1", 
-        name: "Sea Salt Brown Butter", 
-        shortDesc: "Crispy edges, chewy center, flaky sea salt.",
-        longDesc: "We brown the butter to give these cookies a deep, nutty flavor. They have perfectly crispy edges with a gooey, chewy center, finished with a sprinkle of flaky Maldon sea salt. The ultimate sweet and salty treat.",
+        id: "l1", 
+        name: "Banana Bread", 
+        description: "Baked with ripe bananas and a touch of cinnamon, this moist banana bread is perfect for breakfast or a quick snack. Freezes beautifully for up to 2 months.",
         img: "/images/banana bread.jpg", 
-        price6: 1000, 
-        price12: 1800 
+        status: "Frozen",
+        showStatusOnCard: true,   // Shows on grid
+        showStatusInModal: false, // Hidden in popup
+        variants: [
+          { label: "Half Loaf", price: 800 },
+          { label: "Full Loaf", price: 1500 },
+        ],
       },
     ],
   },
@@ -74,26 +84,38 @@ const CATEGORIES: Category[] = [
 const Menu = () => {
   const [activeCategory, setActiveCategory] = useState(CATEGORIES[0].id);
   const [selectedItem, setSelectedItem] = useState<MenuItem | null>(null);
-  
-  // Bring in cart count, total, and openCart function
   const { addToCart, cartCount, cartTotal, openCart, isCartOpen } = useCart();
 
-  const handleAddToCart = (item: MenuItem, boxSize: "Box of 6" | "Box of 12") => {
-    const price = boxSize === "Box of 6" ? item.price6 : item.price12;
-    
+  const menuRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
+
+  useEffect(() => {
+    const el = menuRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { setInView(true); io.disconnect(); }
+    }, { threshold: 0.1 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  const handleAddToCart = (item: MenuItem, variant: Variant) => {
     addToCart({
       itemId: item.id,
       name: item.name,
-      boxSize,
-      price,
+      boxSize: variant.label,
+      price: variant.price,
       img: item.img,
     });
-    
     setSelectedItem(null); 
   };
 
   return (
-    <section id="menu" className="menu section-padding">
+    <section 
+      id="menu" 
+      ref={menuRef}
+      className={`menu section-padding ${inView ? "is-in" : ""}`}
+    >
       <div className="container">
         
         <div className="menu__header">
@@ -138,13 +160,17 @@ const Menu = () => {
                         width={400}
                         height={400}
                       />
+                      {/* Only shows if showStatusOnCard is true (or omitted) */}
+                      {item.showStatusOnCard !== false && (
+                        <span className="menu-card__status">{item.status}</span>
+                      )}
                     </div>
                     
                     <div className="menu-card__content">
                       <h4 className="menu-card__name">{item.name}</h4>
-                      <p className="menu-card__short-desc">{item.shortDesc}</p>
+                      <p className="menu-card__desc">{item.description}</p>
                       <div className="menu-card__price">
-                        <span>From</span> Rs. {item.price6}
+                        <span>From</span> Rs. {item.variants[0].price}
                       </div>
                     </div>
                   </button>
@@ -156,7 +182,7 @@ const Menu = () => {
 
       </div>
 
-      {/* ───────── Floating Cart Button ───────── */}
+      {/* Floating Cart */}
       {cartCount > 0 && !isCartOpen && (
         <button className="floating-cart" onClick={openCart}>
           <div className="floating-cart__left">
@@ -170,7 +196,7 @@ const Menu = () => {
         </button>
       )}
 
-      {/* ───────── Premium Product Modal ───────── */}
+      {/* Product Modal */}
       <div className={`product-modal ${selectedItem ? "is-open" : ""}`}>
         <div className="product-modal__overlay" onClick={() => setSelectedItem(null)} />
         
@@ -188,29 +214,27 @@ const Menu = () => {
               </div>
               
               <div className="product-modal__details">
-                <p className="product-modal__eyebrow">Freshly Baked</p>
+                {/* Only shows if showStatusInModal is true (or omitted) */}
+                {selectedItem.showStatusInModal !== false && (
+                  <p className="product-modal__eyebrow">{selectedItem.status}</p>
+                )}
                 <h3 className="product-modal__title">{selectedItem.name}</h3>
-                <p className="product-modal__desc">{selectedItem.longDesc}</p>
+                <p className="product-modal__desc">{selectedItem.description}</p>
               </div>
             </div>
             
             <div className="product-modal__footer">
               <div className="product-modal__actions">
-                <button 
-                  className="product-modal__btn product-modal__btn--soft"
-                  onClick={() => handleAddToCart(selectedItem, "Box of 6")}
-                >
-                  <span className="product-modal__btn-label">Box of 6</span>
-                  <span className="product-modal__btn-price">Rs. {selectedItem.price6}</span>
-                </button>
-                
-                <button 
-                  className="product-modal__btn product-modal__btn--primary"
-                  onClick={() => handleAddToCart(selectedItem, "Box of 12")}
-                >
-                  <span className="product-modal__btn-label">Box of 12</span>
-                  <span className="product-modal__btn-price">Rs. {selectedItem.price12}</span>
-                </button>
+                {selectedItem.variants.map((variant, idx) => (
+                  <button 
+                    key={variant.label}
+                    className={`product-modal__btn ${idx === 0 ? "product-modal__btn--soft" : "product-modal__btn--primary"}`}
+                    onClick={() => handleAddToCart(selectedItem, variant)}
+                  >
+                    <span className="product-modal__btn-label">{variant.label}</span>
+                    <span className="product-modal__btn-price">Rs. {variant.price}</span>
+                  </button>
+                ))}
               </div>
             </div>
           </div>
